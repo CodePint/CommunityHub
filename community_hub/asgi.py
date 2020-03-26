@@ -1,5 +1,5 @@
 """
-ASGI config for pandemic_isles project.
+ASGI config for community_hub project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pandemic_isles.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'community_hub.settings')
 
 application = get_asgi_application()

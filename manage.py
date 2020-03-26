@@ -5,7 +5,7 @@ import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pandemic_isles.settings')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'community_hub.settings')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
