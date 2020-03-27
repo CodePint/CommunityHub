@@ -37,9 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
     'community_hub',
     'blog',
-    'pages'
+    'pages',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -89,6 +97,9 @@ DATABASES = {
     }
 }
 
+# setup abstract user model
+AUTH_USER_MODEL = 'users.User'
+
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -135,3 +146,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+# URL to use in templates for the files
+MEDIA_URL = '/media/'
+
+# absolute filesystem path to the directory for user-uploaded files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
