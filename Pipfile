@@ -9,6 +9,7 @@ pylint = "*"
 [packages]
 django = "==3.0.3"
 psycopg2 = "*"
+django-allauth = "*"
 
 [requires]
 python_version = "3.7"

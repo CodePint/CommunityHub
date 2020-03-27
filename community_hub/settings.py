@@ -24,8 +24,7 @@ SECRET_KEY = '*-m&r!cw0dy!t)tfddwj)(cd!0k7bmm%w@4d!c98t4hi@zhv-x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,13 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
     'django.contrib.sites',
+
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
+    'allauth.socialaccount', 
+
     'community_hub',
     'blog',
     'pages',
@@ -97,9 +95,6 @@ DATABASES = {
     }
 }
 
-# setup abstract user model
-AUTH_USER_MODEL = 'users.User'
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
@@ -132,23 +127,64 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 # App static files
 STATIC_URL = '/static/'
-
 # Production static files
 STATIC_ROOT = os.path.join(BASE_DIR, 'root')
-
 # Project static files
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+# Media storage settings
+
 # URL to use in templates for the files
 MEDIA_URL = '/media/'
-
 # absolute filesystem path to the directory for user-uploaded files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+AUTHENTICATION_BACKENDS = [
+ "django.contrib.auth.backends.ModelBackend",
+ "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+
+# Abstract user model
+AUTH_USER_MODEL = 'users.User'
+
+# django-allauth settings
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+
+LOGIN_REDIRECT_URL = 'pages:home'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
+
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+# ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+# # ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
+# # ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
+
+# development
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# production
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.community.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'community@hub.com'
+EMAIL_HOST_PASSWORD = 'password'
+SERVER_EMAIL = 'community@hub.com'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
