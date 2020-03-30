@@ -1,26 +1,29 @@
 # users/models.py
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.template.defaultfilters import slugify
 
+# User/Profile models
 class User(AbstractUser):
     slug = models.SlugField(null=False, unique=True)
 
     def __str__(self):
         return (self.username)
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.username)
-        return super().save(*args, **kwargs)
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    bio = models.CharField(max_length=500, unique=True)
+    bio = models.CharField(max_length=500)
     avatar = models.ImageField(upload_to='avatar/')
-    location = models.CharField(max_length=20, unique=True)
+    location = models.CharField(max_length=20)
 
+
+# User/Profile signallers
+@receiver(pre_save, sender=User)
+def create_username_slug(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.username)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

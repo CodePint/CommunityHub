@@ -10,6 +10,7 @@ pylint = "*"
 django = "==3.0.3"
 psycopg2 = "*"
 django-allauth = "*"
+django-extensions = "*"
 
 [requires]
 python_version = "3.7"

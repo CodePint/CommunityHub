@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    ## django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,14 +39,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
 
+    ## custom apps
+    # all_auth
     'allauth',
     'allauth.account',
-    'allauth.socialaccount', 
+    'allauth.socialaccount',
 
-    'community_hub',
+    # extensions
+    'django_extensions',
+
+    ## project apps
     'blog',
     'pages',
-    'users'
+    'users',
+
 ]
 
 MIDDLEWARE = [
@@ -60,12 +67,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'community_hub.urls'
 
-TEMPLATE_DIR = os.path.join(BASE_DIR,"templates")
+TEMPLATE_DIR = os.path.join(BASE_DIR,"community_hub/templates")
+ALLAUTH_TEMPLATE_DIR = os.path.join(TEMPLATE_DIR, "allauth")
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATE_DIR],
+        'DIRS': [TEMPLATE_DIR, ALLAUTH_TEMPLATE_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

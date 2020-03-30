@@ -3,7 +3,7 @@
 <html>
 
     <head>
-        <title>Django Central</title>
+        <title>Community Hub</title>
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
         <meta name="google" content="notranslate" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -13,6 +13,7 @@
 
     <body>
         <h1>Home Page</h1>
+        <h2>Site Navigation</h2>
         <div>
             <ul>
                 <li><a href="{% url 'pages:home' %}">Home</a></li>
@@ -21,7 +22,7 @@
         </div>
     </body>
 
-    <h1>Django Allauth Tutorial</h1>
+    <h2>User Settings</h2>
     {% if user.is_authenticated %}
         <p>Welcome {{ user.username }} !!!</p>
         {% if user.has_usable_password %}
