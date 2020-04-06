@@ -174,15 +174,16 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 LOGIN_REDIRECT_URL = 'pages:home'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'pages:home'
+
+# ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # change to login page
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'pages:home'
 
+
 # development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # production
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

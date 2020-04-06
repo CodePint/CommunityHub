@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/rougex250/.local/share/virtualenvs/CommunityHub-dx1BN_XJ/bin/python"
+    "python.pythonPath": "/home/rougex250/.local/share/virtualenvs/CommunityHub-dx1BN_XJ/bin/python",
+    "python.linting.enabled": true
 }

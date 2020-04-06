@@ -18,11 +18,10 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to='avatar/')
     location = models.CharField(max_length=20)
 
-
 # User/Profile signallers
 @receiver(pre_save, sender=User)
 def create_username_slug(sender, instance, *args, **kwargs):
-    if not instance.slug:
+    if not instance.slug: 
         instance.slug = slugify(instance.username)
 
 @receiver(post_save, sender=User)

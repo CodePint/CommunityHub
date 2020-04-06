@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<div class="container">
+  <div>
+    <h2><a href="{% url 'blog:author' post.author.slug %}" class="btn btn-primary">{{ post.author }}</a><h2>
+  </div>
   <div class="row">
     <div class="col-md-8 card mb-4  mt-3 left  top">
       <div class="card-body">
-        <h1>{% block title %} {{ object.title }} {% endblock title %}</h1>
-        <p class=" text-muted">{{ post.author }} | {{ post.created_on }}</p>
-        <p class="card-text ">{{ object.content | safe }}</p>
+        <h2>Detail View</h2>
+        <h3>{% block title %} {{ post.title }} {% endblock title %}</h3>
+        <p class=" text-muted">{{ post.author }} | {{ post.created_at }}</p>
+        <p class="card-text ">{{ post.content | safe }}</p>
       </div>
     </div>
     {% block sidebar %} {% include 'sidebar.html' %} {% endblock sidebar %}
