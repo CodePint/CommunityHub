@@ -20,11 +20,13 @@
                 <li><a href="{% url 'blog:index' %}">Blog</a></li>
             </ul>
         </div>
+        
     </body>
 
     <h2>User Settings</h2>
     {% if user.is_authenticated %}
-        <p>Welcome {{ user.username }} !!!</p>
+        <p>Welcome <a href="{% url 'profile' user.slug %}">{{ user.username }}</a>
+ !!!</p>
         {% if user.has_usable_password %}
         <p><a href="{% url 'account_change_password' %}">Change password</a></p>
 
