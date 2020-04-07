@@ -1,16 +1,9 @@
-# # users/forms.py
-# from django import forms
-# from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-# from .models import User
+from django import forms
+from django.conf import settings
+from .models import Profile
 
-# class UserCreationForm(UserCreationForm):
+class ProfileEditForm(forms.ModelForm):
 
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email')
-
-# class UserChangeForm(UserChangeForm):
-
-#     class Meta:
-#         model = User
-#         fields = ('username', 'email')
+    class Meta:
+        model = Profile
+        fields = ['bio', 'avatar', 'location']

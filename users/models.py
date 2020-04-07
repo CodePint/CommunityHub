@@ -1,11 +1,13 @@
 # users/models.py
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
-# User/Profile models
+
 class User(AbstractUser):
     slug = models.SlugField(null=False, unique=True)
 
@@ -16,9 +18,14 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.CharField(max_length=500)
     avatar = models.ImageField(upload_to='avatar/')
-    location = models.CharField(max_length=20)
+    location = models.CharField(max_length=20, choices=settings.REGISTERED_COMMUNITIES)
 
-# User/Profile signallers
+    def get_absolute_url(self):
+        return reverse('profile', kwargs={'slug': self.user.slug})
+
+    def form_dict(self):
+        return {'bio': self.bio, 'avatar': self.avatar, 'location': self.location}
+
 @receiver(pre_save, sender=User)
 def create_username_slug(sender, instance, *args, **kwargs):
     if not instance.slug: 

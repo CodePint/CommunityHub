@@ -193,3 +193,11 @@ EMAIL_HOST_USER = 'community@hub.com'
 EMAIL_HOST_PASSWORD = 'password'
 SERVER_EMAIL = 'community@hub.com'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+REGISTERED_COMMUNITIES = [
+    ('JSY', 'Jersey'),
+    ('GSY', 'Guernsey'),
+    ('ADY', 'Alderny'),
+    ('SARK', 'Sark'),
+    ('HERM', 'Herm')
+]
