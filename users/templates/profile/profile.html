@@ -1,7 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}|
+
 <h1>Profile View</h1>
 <h2>{{ user.get_full_name }}</h2>
 <ul>
     <li>Username: {{ user.username }}</li>
     <li>Location: {{ user.profile.location }}</li>
-    <li>Birth Date: {{ user.profile.bio }}</li>
+    <li>Bio: {{ user.profile.bio }}</li>
+    <a href="{% url 'profile_edit' user.slug  %}">Edit</a>
 </ul>
+
+<h3>{{ Avatar }}</h3>
+<div>
+    {% if user.profile.avatar %}
+        <img src="{{ user.profile.avatar.url }}" alt="User Avatar">
+    {% else %} 
+        <img src="{% static "users/images/default_avatar.png" %}" alt="Default Avatar"/> 
+    {% endif %}
+</div>
+
+{% endblock %}
