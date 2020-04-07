@@ -6,7 +6,7 @@ from . import views
 # slug is set to username
 urlpatterns = [
     path('user/', include('allauth.urls')),
-    path('user/<slug:slug>/', views.UserView.as_view(), name='user'),
-    path('user/<slug:slug>/profile/', views.ProfileView.as_view(), name='profile'),
     path('users/', views.IndexView.as_view(), name='users'),
+    path('user/<slug:slug>/', views.ProfileView.as_view(), name='profile'),
+    path('user/<slug:slug>/edit', views.ProfileEdit.as_view(), name='profile_edit'),
 ]
