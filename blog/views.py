@@ -30,14 +30,13 @@ class PostDetail(View):
         context = {'post': post}
         return render(request, "blog/detail.html", context=context)
 
-
 class CreatePost(LoginRequiredMixin, View):
     login_url = '/user/login'
 
     def get(self, request, *args, **kwargs):
         user = request.user
         context = {'user': user, 'form': CreatePostForm()}
-        return render(request, 'blog/create.html', context)
+        return render(request, 'profile/edit.html', context)
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -48,9 +47,8 @@ class CreatePost(LoginRequiredMixin, View):
             post.author = user
             post.status = 1
             post.save()
-            # breakpoint()
             return redirect(post)
 
-        return render(request, 'blog/create.html', {'form': form})
+        return render(request, 'profile.edit.html', {'form': form})
 
 
