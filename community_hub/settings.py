@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'blog',
     'pages',
     'users',
-
+    'helpme'
 ]
 
 MIDDLEWARE = [

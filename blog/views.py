@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import CreatePostForm
 from .models import Post
-from users.models import User
+from .models import User
 from django.db.models import F
 
 class BlogIndex(View):

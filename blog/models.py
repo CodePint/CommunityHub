@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.crypto import get_random_string
 from django.template.defaultfilters import slugify
+from datetime import datetime, timedelta
 
 
 STATUS = (
@@ -21,7 +22,7 @@ class Post(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     content = models.TextField(max_length=25000)
     author = models.ForeignKey(User, on_delete= models.CASCADE, related_name='posts')
-    updated_at = models.DateTimeField(auto_now= True)
+    updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
@@ -32,15 +33,13 @@ class Post(models.Model):
         return self.title
 
     def get_unique_slug(self):
-        timestamp = timezone.now().strftime("%d%m%Y%_H%M%S")
+        timestamp = timezone.now().strftime("%d-%m-%Y-%H%M%S")
         string = '{}-{}'.format(self.title, timestamp)
         return slugify(string)
 
     def get_absolute_url(self):
         args = {'author': self.author.slug, 'slug': self.slug }
         return reverse('blog:detail', kwargs=args)
-
-
 
 @receiver(pre_save, sender=Post)
 def create_title_slug(sender, instance, *args, **kwargs):
