@@ -25,7 +25,8 @@ class ProfileEdit(View):
     def get(self, request, *args, **kwargs):
         user = request.user
         initial = user.profile.form_dict()
-        context = {'user': user, 'form': ProfileEditForm(initial=initial)}
+        form = ProfileEditForm(initial=initial)
+        context = {'user': user, 'form': form}
         return render(request, 'profile/edit.html', context)
 
     def post(self, request, *args, **kwargs):

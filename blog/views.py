@@ -36,7 +36,7 @@ class CreatePost(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user
         context = {'user': user, 'form': CreatePostForm()}
-        return render(request, 'profile/edit.html', context)
+        return render(request, 'blog/create.html', context)
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -49,6 +49,6 @@ class CreatePost(LoginRequiredMixin, View):
             post.save()
             return redirect(post)
 
-        return render(request, 'profile.edit.html', {'form': form})
+        return render(request, 'blog/create.html', {'form': form})
 
 

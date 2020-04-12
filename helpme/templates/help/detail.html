@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <div>
+        <h1>HelpMe - Detail View</h1>
+        <br>
+
+        <h3>Title: {{ notice.title }}</a></h3>
+        <h3>Type: {{ notice.get_type_display }}</h3>
+        <ul>
+            <li>created at: {{notice.created_at}}</li>
+            <li>ending at: {{notice.ending_at}}</li>
+            <li>username: {{notice.user}}</li>
+            <li>status: {{notice.get_status_display}}</li>
+        </ul>
+    </div>
+    <div>
+    <div>
+        <h4><a href="{% url 'helpme:edit' slug=notice.slug  %}">Edit</a><h4>
+        <h4><a href="{% url 'helpme:delete' slug=notice.slug  %}">Delete</a><h4>
+
+    </div>
+    <div>
+    
+        <h4>Content:</h4>
+        <p> {{notice.content}}</p>
+    </div>
+</div>
+{% endblock content %}

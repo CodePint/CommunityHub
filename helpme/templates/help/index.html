@@ -1,6 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
+<br>
 <div>
-    <h1>Help Index<h1>
-    <h2>Type: {{ type }}</h2>
+    <h1>HelpMe Index<h1>
+</div>
+{% if user.is_authenticated %}
+    <h5>Create a help notice:<h5>
+    <div><a href="{% url 'helpme:create' type='wanted' %}">Wanted</a></div>
+    <div><a href="{% url 'helpme:create' type='offered' %}">Offered</a></div>
+{% else %}
+    <a href="{% url 'account_login' %}">Sign In</a> or <a href="{% url 'account_signup' %}">Sign up</a>
+{% endif %}
+<h2>Showing Notices: {{type}}</h2>
+<br>
+<div>
+    {% for notice in notices %}
+    <div>
+        <div><p>----------------------------</p></div>
+        <h4>Title: <a href="{{ notice.get_absolute_url}}">{{ notice.title }}</a></h4>
+        <h5>Type: {{ notice.get_type_display }}</h5>
+        <ul>
+            <li>created at: {{notice.created_at}}</li>
+            <li>ending at: {{notice.ending_at}}</li>
+            <li>username: {{notice.user}}</li>
+            <li>status: {{notice.get_status_display}}</li>
+        </ul>
+
+        <h5>Content:</h5>
+        <p> {{notice.content}}</p>
+    </div>
+    {% endfor %}
 {% endblock content %}

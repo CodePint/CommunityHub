@@ -1,64 +1,89 @@
-from django.shortcuts import render
-
-#from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.views.generic import View
 from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import datetime, timedelta
+from django.forms import modelform_factory
 
-# from .forms import CreatePostForm
-from users.models import User
-from django.db.models import F
+
+
+from .models import HelpNotice, User
+from .forms import HelpNoticeForm, HelpNoticeForm
 
 class HelpIndex(View):
     def get(self, request, type='', *args, **kwargs):
-        user = request.user
-        # posts = Post.objects.all().order_by('-created_at')[:10]
-        context = {'user': user, 'type': type}
+        if type:
+            type = type.lower()
+            notices = HelpNotice.objects.filter(type=type)[:10]
+        else:
+            type = 'all'
+            notices = HelpNotice.objects.order_by('-created_at')[:10]
+        context = {'type': type, 'notices': notices}
         return render(request, "help/index.html", context=context)
 
-class HelpDetail(View):
-    def get(self, request, *args, **kwargs):
+class HelpNoticeDetail(View):
+    def get(self, request, type, slug, *args, **kwargs):
         user = request.user
-        # posts = Post.objects.all().order_by('-created_at')[:10]
-        context = {'user': user}
+        # help_filter = HelpNotice.objects.filter(type=type)
+        notice = get_object_or_404(HelpNotice, slug=slug)
+        context = {'user': user, 'notice': notice }
         return render(request, "help/detail.html", context=context)
 
 class CreateHelpNotice(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
+    login_url = '/user/login'
+
+    def get(self, request, type, *args, **kwargs):
         user = request.user
-        # posts = user.posts.all()
-        context = {'user': user}
-        return render(request, "help/edit.html", context=context)
+        context = {'user': user, 'form': HelpNoticeForm(created=True)}
+        return render(request, "help/create.html", context=context)
     
-    # def post(self, request, *args, **kwargs):
-    #     user = request.user
-    #     form = CreatePostForm(request.POST)
+    def post(self, request, type, *args, **kwargs):
+        user = request.user
+        form = HelpNoticeForm(request.POST, created=True)
+
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.type = type
+            notice.user = user
+            notice.save()
+            return redirect(notice)
+
+        return render(request, 'help/create', {'form': form})
 
 class EditHelpNotice(LoginRequiredMixin, View):
     login_url = '/user/login'
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, slug, *args, **kwargs):
         user = request.user
-        context = {'user': user}
-        return render(request, 'profile/edit.html', context)
+        notice = get_object_or_404(HelpNotice, slug=slug)
+        form = HelpNoticeForm(initial=notice.form_fields())
+        context = {'form': form, 'user': user, 'notice': notice}
+        return render(request, 'help/edit.html', context)
 
-    # def post(self, request, *args, **kwargs):
-    #     user = request.user
-    #     form = CreatePostForm(request.POST)
+    def post(self, request, slug, *args, **kwargs):
+        user = request.user
+        notice = get_object_or_404(HelpNotice, slug=slug)
+        form = HelpNoticeForm(request.POST, instance=notice)
 
-    #     if form.is_valid():
-    #         post = form.save(commit=False)
-    #         post.author = user
-    #         post.status = 1
-    #         post.save()
-    #         return redirect(post)
+        if form.is_valid():
+            notice = form.save(commit=False)
+            notice.user = user
+            notice.save()
+            return redirect(notice)
 
-    #     return render(request, 'profile.edit.html', {'form': form})
+        return render(request, 'help/edit.html', {'form': form})
 
 class DeleteHelpNotice(LoginRequiredMixin, View):
-    def delete(self, request, *args, **kwargs):
-        post = get_object_or_404(Post, slug=kwargs['slug'])
-        context = {'post': post}
-        return render(request, "blog/detail.html", context=context)
+
+    def get(self, request, slug, *args, **kwargs):
+        notice = get_object_or_404(HelpNotice, slug=slug)
+        context = {'notice': notice}
+        return render(request, "help/delete.html", context)
+
+    def post(self, request, slug, *args, **kwargs):
+        notice = get_object_or_404(HelpNotice, slug=slug)
+        message = "Help notice has been deleted - {}".format(notice.title)
+        notice.delete()
+        return redirect("helpme:index", type='')

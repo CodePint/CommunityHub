@@ -38,8 +38,8 @@ class Post(models.Model):
         return slugify(string)
 
     def get_absolute_url(self):
-        args = {'author': self.author.slug, 'slug': self.slug }
-        return reverse('blog:detail', kwargs=args)
+        kwargs = {'author': self.author.slug, 'slug': self.slug}
+        return reverse('blog:detail', kwargs=kwargs)
 
 @receiver(pre_save, sender=Post)
 def create_title_slug(sender, instance, *args, **kwargs):
